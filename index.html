@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KK GAMES INFO | Discover Amazing Games</title>
+<style>
+:root{
+  --bg:#081120; --panel:#111b33; --text:#f7f9ff; --muted:#aeb9d5;
+  --pink:#ff4fa3; --purple:#8b5cf6; --blue:#25b9ff; --yellow:#ffd43b; --green:#38d996;
+}
+*{box-sizing:border-box} html{scroll-behavior:smooth}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:
+radial-gradient(circle at 10% 10%,#1c2c5c 0,transparent 28%),
+radial-gradient(circle at 90% 20%,#53215c 0,transparent 25%),
+linear-gradient(135deg,#07101f,#101a39 55%,#1b1235);color:var(--text);overflow-x:hidden}
+a{text-decoration:none;color:inherit}
+nav{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:14px 6%;background:rgba(7,16,31,.84);backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,.08)}
+.logo{font-weight:900;font-size:1.35rem;letter-spacing:.5px}.logo span{color:var(--yellow)}
+.navlinks{display:flex;gap:18px;align-items:center;font-size:.95rem}.navlinks a:hover{color:var(--yellow)}
+.btn{border:none;border-radius:999px;padding:11px 18px;font-weight:800;cursor:pointer;background:linear-gradient(135deg,var(--pink),var(--purple));color:white;box-shadow:0 8px 25px rgba(255,79,163,.25);transition:.25s}
+.btn:hover{transform:translateY(-3px) scale(1.02)}
+.hero{min-height:620px;padding:80px 7% 50px;display:grid;grid-template-columns:1.15fr .85fr;gap:40px;align-items:center;position:relative}
+.badge{display:inline-block;padding:8px 13px;border-radius:999px;background:rgba(56,217,150,.12);border:1px solid rgba(56,217,150,.3);color:#8cffca;font-weight:700}
+h1{font-size:clamp(3rem,7vw,6.4rem);line-height:.94;margin:20px 0}.gradient{background:linear-gradient(90deg,#ffd43b,#ff70b8,#8b7cff,#3bc7ff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{font-size:1.1rem;color:var(--muted);line-height:1.7;max-width:620px}.hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
+.ghost{background:rgba(255,255,255,.08);box-shadow:none;border:1px solid rgba(255,255,255,.12)}
+.hero-art{min-height:390px;border-radius:36px;padding:25px;background:linear-gradient(135deg,#ff4fa3,#8b5cf6 45%,#25b9ff);position:relative;box-shadow:0 30px 70px rgba(0,0,0,.35);overflow:hidden}
+.hero-art:before,.hero-art:after{content:"";position:absolute;border-radius:50%;filter:blur(4px);opacity:.65}.hero-art:before{width:270px;height:270px;background:#ffd43b;right:-70px;top:-50px}.hero-art:after{width:220px;height:220px;background:#38d996;left:-70px;bottom:-80px}
+.console{position:absolute;inset:72px 38px 45px;border-radius:26px;background:rgba(7,12,30,.78);border:1px solid rgba(255,255,255,.25);padding:25px;transform:rotate(4deg)}
+.console h3{font-size:2rem;margin:0 0 10px}.mini-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:25px}.mini{height:90px;border-radius:18px;padding:12px;font-weight:800;display:flex;align-items:end;background:linear-gradient(135deg,rgba(255,79,163,.8),rgba(139,92,246,.55))}
+.mini:nth-child(2){background:linear-gradient(135deg,rgba(37,185,255,.8),rgba(56,217,150,.55))}.mini:nth-child(3){background:linear-gradient(135deg,rgba(255,212,59,.8),rgba(255,79,163,.55))}.mini:nth-child(4){background:linear-gradient(135deg,rgba(56,217,150,.8),rgba(37,185,255,.55))}
+.section{padding:72px 7%}.section-title{font-size:2.25rem;margin:0}.section-sub{color:var(--muted);margin-top:8px;line-height:1.6}
+.search-wrap{margin:28px 0;display:flex;gap:10px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);padding:9px;border-radius:18px}
+.search-wrap input{flex:1;background:transparent;border:0;outline:0;color:white;font-size:1rem;padding:10px}.filters{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:28px}
+.filter{padding:9px 15px;border-radius:999px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.05);color:white;cursor:pointer}.filter.active,.filter:hover{background:linear-gradient(135deg,var(--blue),var(--purple));border-color:transparent}
+.games{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:22px}
+body:before{content:"";position:fixed;inset:-40%;z-index:-1;background:conic-gradient(from 180deg,rgba(255,79,163,.08),rgba(37,185,255,.07),rgba(56,217,150,.06),rgba(139,92,246,.08),rgba(255,79,163,.08));animation:spinBg 24s linear infinite}
+@keyframes spinBg{to{transform:rotate(360deg)}}
+.reveal{opacity:0;transform:translateY(38px) scale(.96);filter:blur(6px);transition:opacity .7s cubic-bezier(.16,.8,.24,1),transform .7s cubic-bezier(.16,.8,.24,1),filter .7s ease;transition-delay:calc(var(--i,0) * 55ms)}
+.reveal.visible{opacity:1;transform:none;filter:blur(0)}
+@media(prefers-reduced-motion:reduce){.reveal{transition:opacity .3s ease;transform:none;filter:none}}
+.trending-rail{display:flex;gap:16px;overflow-x:auto;padding:6px 2px 22px;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}
+.trending-rail::-webkit-scrollbar{height:7px}.trending-rail::-webkit-scrollbar-thumb{background:rgba(255,255,255,.18);border-radius:10px}
+.trend-card{flex:0 0 210px;scroll-snap-align:start;border-radius:20px;overflow:hidden;cursor:pointer;position:relative;background:#0d1730;border:1px solid rgba(255,255,255,.1);transition:transform .3s ease,border-color .3s ease}
+.trend-card:hover{transform:translateY(-6px);border-color:rgba(255,255,255,.35)}
+.trend-cover{height:130px;background-size:cover;background-position:center;position:relative}
+.trend-cover:before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(5,10,24,.92))}
+.trend-rank{position:absolute;left:10px;bottom:8px;font-weight:900;font-size:1.6rem;color:#ffd43b;text-shadow:0 2px 10px rgba(0,0,0,.6)}
+.trend-body{padding:12px 13px 14px}.trend-body b{font-size:.95rem}.trend-body span{display:block;color:var(--muted);font-size:.8rem;margin-top:3px}
+.card{background:rgba(17,27,51,.8);border:1px solid rgba(255,255,255,.09);border-radius:24px;overflow:hidden;transition:.3s;position:relative;cursor:pointer}.card:hover{transform:translateY(-9px);border-color:rgba(255,255,255,.3);box-shadow:0 24px 55px rgba(0,0,0,.28)}
+.cover{height:190px;padding:18px;display:flex;align-items:end;font-size:1.55rem;font-weight:900;position:relative;overflow:hidden;background-size:cover!important;background-position:center!important;isolation:isolate}
+.cover:before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 20%,rgba(5,10,24,.92));z-index:-1;transition:.4s}
+.card:hover .cover:before{background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(5,10,24,.88))}
+.card:hover .cover{transform:scale(1.035);transition:transform .45s ease}
+.cover{transition:transform .45s ease}
+.cover:after{content:"";position:absolute;width:160px;height:160px;border-radius:50%;right:-35px;top:-35px;background:rgba(255,255,255,.14)}
+.bg1{background:linear-gradient(135deg,#ff6b6b,#7c3aed)}.bg2{background:linear-gradient(135deg,#00c6ff,#0072ff)}.bg3{background:linear-gradient(135deg,#ff9966,#ff5e62)}.bg4{background:linear-gradient(135deg,#11998e,#38ef7d)}.bg5{background:linear-gradient(135deg,#f7971e,#ffd200)}.bg6{background:linear-gradient(135deg,#654ea3,#eaafc8)}.bg7{background:linear-gradient(135deg,#ee0979,#ff6a00)}.bg8{background:linear-gradient(135deg,#4568dc,#b06ab3)}
+.bg9{background:linear-gradient(135deg,#0f2027,#2c5364)}.bg10{background:linear-gradient(135deg,#8e2de2,#4a00e0)}.bg11{background:linear-gradient(135deg,#f857a6,#ff5858)}.bg12{background:linear-gradient(135deg,#00b09b,#96c93d)}.bg13{background:linear-gradient(135deg,#fc5c7d,#6a82fb)}.bg14{background:linear-gradient(135deg,#16222a,#3a6073)}.bg15{background:linear-gradient(135deg,#e1eec3,#f05053)}.bg16{background:linear-gradient(135deg,#360033,#0b8793)}.bg17{background:linear-gradient(135deg,#f2994a,#f2c94c)}.bg18{background:linear-gradient(135deg,#43cea2,#185a9d)}.bg19{background:linear-gradient(135deg,#c31432,#240b36)}.bg20{background:linear-gradient(135deg,#7f00ff,#e100ff)}
+.card-body{padding:18px}.meta{display:flex;justify-content:space-between;color:#ffd43b;font-weight:800;font-size:.9rem}.card p{color:var(--muted);line-height:1.55;font-size:.92rem;min-height:64px}
+.card-actions{display:flex;gap:9px}.small{padding:9px 12px;font-size:.86rem;flex:1;text-align:center}.fav{width:44px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12)}
+.feature{margin-top:60px;display:grid;grid-template-columns:1fr 1fr;gap:0;border-radius:30px;overflow:hidden;background:linear-gradient(135deg,#17234b,#321b57);border:1px solid rgba(255,255,255,.1)}
+.feature-art{min-height:330px;background:linear-gradient(135deg,#25b9ff,#8b5cf6,#ff4fa3);padding:35px;display:flex;align-items:end;font-size:3rem;font-weight:900}.feature-info{padding:38px}.feature-info p{color:var(--muted);line-height:1.7}
+.gallery{display:grid;grid-template-columns:repeat(5,1fr);gap:9px;margin:20px 0}.shot{height:78px;width:100%;object-fit:cover;border-radius:12px;border:1px solid rgba(255,255,255,.18);transition:.3s}.shot:hover{transform:translateY(-5px) scale(1.05);box-shadow:0 12px 28px rgba(0,0,0,.35)}.shot:nth-child(2){background:linear-gradient(135deg,#25b9ff,#38d996)}.shot:nth-child(3){background:linear-gradient(135deg,#ffd43b,#ff6b6b)}.shot:nth-child(4){background:linear-gradient(135deg,#8b5cf6,#25b9ff)}.shot:nth-child(5){background:linear-gradient(135deg,#38d996,#ffd43b)}
+.about{display:grid;grid-template-columns:300px 1fr;gap:35px;align-items:center;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.1);padding:30px;border-radius:30px}.owner-img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:26px;border:4px solid rgba(255,255,255,.15)}.contact-box{display:flex;flex-wrap:wrap;gap:12px;margin-top:20px}.chip{background:rgba(255,255,255,.08);padding:11px 14px;border-radius:14px;color:#dce4ff}
+.signup{max-width:620px;margin:auto;background:rgba(17,27,51,.8);padding:30px;border-radius:28px;border:1px solid rgba(255,255,255,.1)}.signup input,.signup textarea{width:100%;margin:8px 0 15px;padding:14px;border-radius:14px;border:1px solid rgba(255,255,255,.12);background:#0a1226;color:white;outline:0}.signup label{font-weight:700}
+footer{text-align:center;padding:35px 7%;color:var(--muted);border-top:1px solid rgba(255,255,255,.08)}
+.toast{position:fixed;right:20px;bottom:20px;background:#182542;border:1px solid rgba(255,255,255,.15);padding:14px 18px;border-radius:15px;transform:translateY(120px);transition:.35s;z-index:100}.toast.show{transform:translateY(0)}
+#topBtn{position:fixed;right:18px;bottom:80px;border:0;border-radius:50%;width:46px;height:46px;background:linear-gradient(135deg,var(--pink),var(--purple));color:white;display:none;cursor:pointer}
+.browse-toggle{display:flex;align-items:center;gap:10px;margin:34px 0 6px;cursor:pointer;user-select:none}
+.browse-toggle .line{flex:1;height:1px;background:rgba(255,255,255,.12)}
+.browse-toggle span{font-weight:800;padding:12px 20px;border-radius:999px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);white-space:nowrap;transition:.25s}
+.browse-toggle:hover span{background:linear-gradient(135deg,var(--blue),var(--purple));border-color:transparent}
+.browse-panel{max-height:0;overflow:hidden;transition:max-height .5s cubic-bezier(.2,.8,.2,1)}
+.browse-panel.open{max-height:4000px}
+.browse-inner{padding-top:22px}
+
+/* ---- Full-page game detail with native page transition ---- */
+::view-transition-old(root),::view-transition-new(root){animation-duration:.42s;animation-timing-function:cubic-bezier(.2,.8,.2,1)}
+.detail-page{position:fixed;inset:0;z-index:300;background:linear-gradient(180deg,#0a1226,#0c1330 40%,#150f2b);overflow-y:auto;opacity:0;transform:translateY(3%);pointer-events:none;transition:opacity .4s ease,transform .45s cubic-bezier(.2,.8,.2,1)}
+.detail-page.open{opacity:1;transform:none;pointer-events:auto}
+.detail-topbar{position:sticky;top:0;z-index:2;display:flex;align-items:center;gap:14px;padding:16px 6%;background:rgba(7,16,31,.7);backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,.08)}
+.back-btn{border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.06);color:white;border-radius:999px;padding:9px 16px;font-weight:800;cursor:pointer;display:flex;align-items:center;gap:7px}
+.back-btn:hover{background:rgba(255,255,255,.14)}
+.detail-hero{height:280px;background-size:cover;background-position:center;position:relative;view-transition-name:none}
+.detail-hero:before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,10,24,.1),rgba(9,14,30,.97))}
+.detail-hero-text{position:absolute;left:7%;right:7%;bottom:22px}
+.detail-hero-text h2{margin:8px 0 0;font-size:clamp(1.9rem,5vw,2.6rem)}
+.detail-body{max-width:760px;margin:0 auto;padding:30px 7% 70px}
+.detail-body>p{color:var(--muted);line-height:1.75;font-size:1.05rem}
+.info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin:24px 0}
+.info-grid div{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-radius:14px;padding:12px 14px}
+.info-grid div b{display:block;color:#fff;font-size:.95rem}.info-grid div span{color:var(--muted);font-size:.78rem;text-transform:uppercase;letter-spacing:.4px}
+.detail-gallery-title{font-weight:800;margin:28px 0 12px;font-size:1.1rem}
+.detail-gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.detail-gallery img{width:100%;height:130px;object-fit:cover;border-radius:16px;border:1px solid rgba(255,255,255,.15);cursor:zoom-in;transition:transform .25s ease}
+.detail-gallery img:hover{transform:scale(1.04)}
+.detail-actions{display:flex;gap:12px;margin-top:28px;flex-wrap:wrap}
+body.page-open{overflow:hidden}
+@media(max-width:800px){.navlinks{display:none}.hero,.feature,.about{grid-template-columns:1fr}.hero{padding-top:55px}.hero-art{min-height:330px}.gallery{grid-template-columns:repeat(5,1fr)}.section{padding:55px 5%}.feature-art{min-height:230px}.owner-img{max-width:300px}.console{inset:55px 22px 25px}.detail-hero{height:200px}.detail-body{padding:24px 6% 60px}}
+</style>
+
+<style>
+.game-cover-img{width:100%;height:190px;object-fit:cover;display:block;transition:transform .45s ease}
+.card:hover .game-cover-img{transform:scale(1.035)}
+.detail-main-img{width:100%;max-height:360px;object-fit:cover;border-radius:18px;margin-top:20px}
+.detail-gallery img{background:#151e38}
+.owner-img{display:block;background:#151e38}
+</style>
+
+<style>
+.wishlist-popup{
+  position:fixed;
+  left:50%;
+  bottom:28px;
+  transform:translate(-50%, 140px);
+  opacity:0;
+  z-index:9999;
+  min-width:280px;
+  max-width:calc(100vw - 32px);
+  padding:15px 20px;
+  border-radius:18px;
+  background:rgba(17,27,51,.96);
+  border:1px solid rgba(255,255,255,.18);
+  box-shadow:0 18px 45px rgba(0,0,0,.4);
+  text-align:center;
+  font-weight:800;
+  transition:.35s cubic-bezier(.2,.8,.2,1);
+}
+.wishlist-popup.show{
+  transform:translate(-50%,0);
+  opacity:1;
+}
+.wishlist-popup small{
+  display:block;
+  color:var(--muted);
+  margin-top:4px;
+  font-weight:500;
+}
+.detail-wishlist{
+  min-width:170px;
+  width:auto;
+  padding:11px 18px;
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.18);
+  box-shadow:none;
+}
+.detail-wishlist:hover{
+  background:linear-gradient(135deg,var(--pink),var(--purple));
+  border-color:transparent;
+}
+.detail-wishlist.saved{
+  background:linear-gradient(135deg,#38d996,#25b9ff);
+  border-color:transparent;
+}
+.detail-description{
+  color:var(--muted);
+  line-height:1.85;
+  font-size:1.06rem;
+  margin:22px 0 28px;
+}
+.official-link{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+}
+</style>
+
+<style>
+/* ===== KK GAMES SHOP — PROFESSIONAL MOTION LAYER ===== */
+body{scroll-behavior:smooth}
+nav{transition:background .35s ease,box-shadow .35s ease,transform .35s ease}
+nav.scrolled{background:rgba(5,10,24,.94);box-shadow:0 10px 35px rgba(0,0,0,.25)}
+.hero{overflow:hidden}
+.hero:after{
+  content:"";position:absolute;width:520px;height:520px;right:-180px;bottom:-240px;
+  border-radius:50%;background:radial-gradient(circle,rgba(255,79,163,.22),transparent 68%);
+  filter:blur(8px);animation:heroOrb 7s ease-in-out infinite alternate;pointer-events:none
+}
+@keyframes heroOrb{from{transform:translate3d(0,0,0) scale(.9)}to{transform:translate3d(-70px,-45px,0) scale(1.08)}}
+.hero-art{animation:heroFloat 5s ease-in-out infinite}
+@keyframes heroFloat{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-9px) rotate(.4deg)}}
+.console{animation:consoleFloat 6s ease-in-out infinite}
+@keyframes consoleFloat{0%,100%{transform:rotate(4deg) translateY(0)}50%{transform:rotate(3deg) translateY(-8px)}}
+.badge{animation:badgeGlow 2.8s ease-in-out infinite}
+@keyframes badgeGlow{50%{box-shadow:0 0 24px rgba(56,217,150,.16)}}
+.btn{position:relative;overflow:hidden}
+.btn:after{
+  content:"";position:absolute;top:-80%;left:-30%;width:28%;height:260%;
+  background:rgba(255,255,255,.25);transform:rotate(22deg) translateX(-180px);
+  transition:transform .7s ease
+}
+.btn:hover:after{transform:rotate(22deg) translateX(650px)}
+.trend-card,.card,.feature,.about,.signup{will-change:transform}
+.trend-card:hover,.card:hover{animation:cardLift .45s ease both}
+@keyframes cardLift{50%{transform:translateY(-12px)}}
+.card-actions .fav{transition:transform .2s ease,background .25s ease}
+.card-actions .fav:hover{transform:scale(1.12) rotate(-6deg)}
+.detail-page.open .detail-hero{animation:detailZoom .8s ease both}
+@keyframes detailZoom{from{transform:scale(1.045);filter:brightness(.75)}to{transform:scale(1);filter:brightness(1)}}
+.scroll-video-copy{animation:copyReveal .9s ease both}
+@keyframes copyReveal{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
+.owner-img{transition:transform .6s cubic-bezier(.2,.8,.2,1),box-shadow .6s ease}
+.owner-img:hover{transform:scale(1.025) rotate(-1deg);box-shadow:0 25px 55px rgba(255,79,163,.2)}
+.chip{transition:transform .25s ease,background .25s ease}
+.chip:hover{transform:translateY(-3px);background:rgba(255,255,255,.12)}
+.feature-art{position:relative;overflow:hidden}
+.feature-art:after{
+  content:"";position:absolute;inset:-50%;
+  background:linear-gradient(115deg,transparent 42%,rgba(255,255,255,.12) 50%,transparent 58%);
+  transform:translateX(-45%);animation:shine 5s linear infinite
+}
+@keyframes shine{to{transform:translateX(45%)}}
+footer b{color:var(--yellow)}
+@media(prefers-reduced-motion:reduce){
+  *,*:before,*:after{animation:none!important;transition:none!important}
+}
+</style>
+
+<style>
+.hero-stats{display:flex;gap:0;margin-top:28px;max-width:540px}
+.hero-stats div{min-width:145px;padding:4px 22px;border-left:1px solid rgba(255,255,255,.15)}
+.hero-stats div:first-child{padding-left:0;border-left:0}
+.hero-stats b{display:block;font-size:1.45rem;color:#fff}
+.hero-stats span{display:block;color:var(--muted);font-size:.8rem;margin-top:3px}
+@media(max-width:600px){.hero-stats{flex-wrap:wrap;gap:12px}.hero-stats div{min-width:115px;padding:4px 12px}}
+</style>
+
+<style id="kk-professional-home">
+/* ===== KK GAMES SHOP — PROFESSIONAL FRONT PAGE ===== */
+:root{
+  --bg:#050a18;--panel:#0b1327;--panel2:#101a32;
+  --text:#f8fbff;--muted:#9eabc8;
+  --pink:#ff2f78;--purple:#7c3aed;--blue:#29b7ff;
+  --yellow:#ffd23f;--line:rgba(255,255,255,.10);
+}
+body{
+  background:
+    radial-gradient(circle at 15% 8%,rgba(124,58,237,.22),transparent 26%),
+    radial-gradient(circle at 85% 18%,rgba(255,47,120,.16),transparent 25%),
+    linear-gradient(135deg,#030713,#081226 55%,#0c0920);
+}
+nav{
+  position:fixed;left:0;right:0;top:0;
+  padding:15px 5%;background:rgba(3,7,18,.62);
+  border-bottom:1px solid rgba(255,255,255,.08);
+  z-index:500;
+}
+.logo{font-size:1.4rem}.logo:first-letter{color:var(--yellow)}
+.navlinks{gap:25px}.navlinks a{transition:.25s}.navlinks a:hover{color:#ff4f98}
+.hero{
+  min-height:760px;padding:120px 5% 75px;
+  grid-template-columns:1.05fr .95fr;gap:45px;
+  max-width:1500px;margin:auto;
+}
+.hero-copy{position:relative;z-index:2}
+.hero .badge{background:linear-gradient(90deg,rgba(255,47,120,.22),rgba(124,58,237,.22));border-color:rgba(255,79,163,.35);color:#ffb5d2}
+h1{font-size:clamp(3.6rem,7vw,6.9rem);letter-spacing:-3px;margin:18px 0}
+.hero p{max-width:570px;font-size:1.04rem}
+.hero-actions .btn{min-width:155px}
+.hero-art{
+  min-height:470px;border-radius:34px;
+  background:
+    linear-gradient(135deg,rgba(255,47,120,.20),rgba(124,58,237,.15)),
+    radial-gradient(circle at 70% 35%,rgba(41,183,255,.28),transparent 32%),
+    #080f22;
+  border:1px solid rgba(255,255,255,.14);
+  box-shadow:0 35px 90px rgba(0,0,0,.45);
+}
+.hero-art:before,.hero-art:after{opacity:.35}
+.console{
+  inset:45px 30px 35px;border-radius:25px;
+  background:
+    linear-gradient(180deg,rgba(4,8,21,.68),rgba(4,8,21,.92)),
+    url('https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1200&q=85') center/cover;
+  border:1px solid rgba(255,255,255,.18);
+  transform:none;padding:28px;
+}
+.console h3{font-size:2.2rem;max-width:420px;margin-top:18px}
+.mini-grid{grid-template-columns:repeat(2,1fr);max-width:430px}
+.mini{background:rgba(255,255,255,.09)!important;border:1px solid rgba(255,255,255,.1);backdrop-filter:blur(8px)}
+.hero-stats{margin-top:30px}
+.trending-wrap{
+  max-width:1500px;margin:-8px auto 0;padding:0 5%;
+}
+.home-panel{
+  border:1px solid rgba(255,255,255,.11);
+  background:rgba(7,13,29,.78);
+  border-radius:28px;
+  box-shadow:0 25px 70px rgba(0,0,0,.30);
+  overflow:hidden;
+}
+.trending-head{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:20px;padding:26px 30px 16px;
+}
+.trending-head h2{margin:0;font-size:2rem}
+.trending-head p{margin:6px 0 0;color:var(--muted)}
+.trending-rail{padding:6px 25px 28px}
+.trend-card{
+  flex-basis:205px;
+  background:#0b142a;border-color:rgba(255,255,255,.12);
+}
+.trend-cover{height:145px}
+.trend-card:hover{border-color:rgba(255,47,120,.7);box-shadow:0 14px 35px rgba(255,47,120,.12)}
+.home-owner{
+  max-width:1500px;margin:24px auto 0;padding:0 5%;
+}
+.home-owner .about{
+  background:linear-gradient(135deg,rgba(12,21,43,.94),rgba(17,12,39,.94));
+  border-radius:28px;padding:25px;
+}
+.home-owner .owner-img{max-width:360px}
+.home-owner .section-sub{font-size:1rem}
+.home-feedback{
+  max-width:1500px;margin:24px auto 0;padding:0 5%;
+}
+.home-feedback .signup{
+  max-width:none;display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:12px;align-items:end;
+  padding:20px 24px;background:rgba(7,13,29,.82);
+}
+.home-feedback .signup label{grid-column:auto}
+.home-feedback .signup textarea{grid-column:span 1;margin-bottom:0}
+.home-feedback .signup input{margin-bottom:0}
+.home-feedback .signup button{margin-bottom:15px;white-space:nowrap}
+.home-footer{margin-top:50px}
+.section#featured,.section:not(#featured):not(#about):not(#contact){max-width:1500px;margin:auto}
+#featured{padding-top:45px}
+#about,#contact{padding-top:35px}
+@media(max-width:900px){
+  .hero{grid-template-columns:1fr;min-height:auto;padding-top:105px}
+  .hero-art{min-height:390px}
+  .home-feedback .signup{grid-template-columns:1fr 1fr}
+  .home-feedback .signup button{grid-column:span 2}
+}
+@media(max-width:600px){
+  h1{letter-spacing:-2px}
+  .hero{padding-left:6%;padding-right:6%}
+  .hero-art{min-height:320px}
+  .console{inset:28px 16px 22px;padding:18px}
+  .console h3{font-size:1.55rem}
+  .trending-head{padding:22px 18px 10px}
+  .trending-head h2{font-size:1.55rem}
+  .trending-rail{padding-left:18px}
+  .home-feedback{padding:0 5%}
+  .home-feedback .signup{grid-template-columns:1fr}
+  .home-feedback .signup button{grid-column:auto}
+}
+</style>
+
+<style id="reference-front-page">
+/* ===== KK GAMES SHOP — REFERENCE-STYLE FRONT PAGE ===== */
+body{
+  background:#030817;
+  color:#f7f9ff;
+  overflow-x:hidden;
+}
+nav{
+  background:rgba(2,7,20,.78)!important;
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid rgba(255,255,255,.08)!important;
+  padding:15px 5%!important;
+}
+.logo{font-size:1.35rem!important;letter-spacing:-.5px}
+.navlinks a{font-weight:700!important}
+.hero{
+  position:relative;
+  max-width:none!important;
+  min-height:700px!important;
+  padding:118px 5% 68px!important;
+  grid-template-columns:46% 54%!important;
+  gap:0!important;
+  overflow:hidden;
+  background:
+    linear-gradient(90deg,rgba(2,7,20,.95) 0%,rgba(2,7,20,.82) 36%,rgba(2,7,20,.22) 75%,rgba(2,7,20,.45) 100%),
+    radial-gradient(circle at 78% 35%,rgba(65,105,255,.28),transparent 30%),
+    url("https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=2200&q=90") center/cover;
+}
+.hero:before{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(0deg,#030817 0%,transparent 32%);
+  pointer-events:none;
+}
+.hero-copy{position:relative;z-index:3;padding-left:3%;align-self:center}
+.hero-copy .badge{display:inline-flex;margin-bottom:8px}
+.hero h1{
+  font-size:clamp(3.3rem,6.3vw,6.4rem)!important;
+  line-height:.98!important;
+  letter-spacing:-3px!important;
+  margin:12px 0 20px!important;
+}
+.hero h1 .gradient{
+  background:linear-gradient(90deg,#ff2f78,#ff6c36,#ffd23f);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.hero-copy>p{font-size:1.02rem;line-height:1.75;max-width:610px}
+.hero-actions{margin-top:25px}
+.hero-art{
+  position:relative;z-index:2;
+  min-height:520px!important;
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+  overflow:visible!important;
+}
+.hero-art:before{content:"";position:absolute;inset:5% 5% 8% 10%;border-radius:38px;background:linear-gradient(135deg,rgba(255,47,120,.15),rgba(41,183,255,.10));filter:blur(2px)}
+.console{
+  position:absolute!important;inset:9% 7% 12% 8%!important;
+  padding:38px!important;border-radius:28px!important;
+  background:
+    linear-gradient(145deg,rgba(5,11,29,.68),rgba(7,13,30,.38)),
+    url("https://images.unsplash.com/photo-1593305841991-05c297ba4575?auto=format&fit=crop&w=1400&q=90") center/cover!important;
+  border:1px solid rgba(255,255,255,.18)!important;
+  box-shadow:0 35px 100px rgba(0,0,0,.52),0 0 70px rgba(60,80,255,.15)!important;
+  backdrop-filter:blur(4px);
+  transform:perspective(900px) rotateY(-4deg) rotateX(2deg)!important;
+}
+.console h3{
+  font-size:clamp(1.8rem,3vw,3rem)!important;
+  max-width:480px!important;
+  margin:18px 0 24px!important;
+}
+.mini-grid{max-width:430px!important}
+.mini{
+  padding:14px!important;
+  background:rgba(5,10,25,.62)!important;
+  border:1px solid rgba(255,255,255,.15)!important;
+}
+.hero-stats{
+  display:flex!important;
+  margin-top:35px!important;
+}
+.hero-stats div{
+  border-left:1px solid rgba(255,255,255,.16)!important;
+  padding:0 25px!important;
+}
+.hero-stats div:first-child{padding-left:0;border-left:0!important}
+.hero-stats b{font-size:1.45rem!important}
+.hero-stats span{font-size:.78rem!important}
+
+/* Reference-style trending panel */
+#games{
+  max-width:none!important;
+  padding:25px 3.2% 30px!important;
+  background:#030817!important;
+}
+.home-panel{
+  max-width:1420px;margin:auto;
+  border-radius:20px!important;
+  background:linear-gradient(180deg,rgba(9,17,38,.98),rgba(5,12,27,.98))!important;
+  border:1px solid rgba(255,255,255,.11)!important;
+  box-shadow:0 20px 60px rgba(0,0,0,.35)!important;
+}
+.trending-head{
+  padding:26px 38px 12px!important;
+}
+.trending-head .badge{
+  background:none!important;border:0!important;padding:0!important;
+  color:#ff3d86!important;letter-spacing:1px;
+}
+.trending-head h2{font-size:2rem!important;margin-top:6px!important}
+.trending-rail{padding:7px 38px 30px!important}
+.trend-card{
+  flex-basis:180px!important;
+  border-radius:13px!important;
+  overflow:hidden;
+  transition:transform .3s ease,border-color .3s ease,box-shadow .3s ease;
+}
+.trend-card:hover{
+  transform:translateY(-8px)!important;
+  border-color:#ff347f!important;
+  box-shadow:0 15px 35px rgba(255,47,120,.18)!important;
+}
+.trend-cover{height:160px!important}
+.browse-toggle{margin:0 38px 25px!important}
+
+/* Owner + feedback become one clean reference-style band */
+#about,#contact{
+  max-width:1420px!important;
+  margin:22px auto!important;
+  padding:0 3.2%!important;
+}
+#about .about{
+  min-height:310px;
+  padding:25px!important;
+  border-radius:20px!important;
+  background:
+    linear-gradient(90deg,rgba(7,14,31,.96),rgba(7,14,31,.72)),
+    url("https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=1800&q=80") center/cover!important;
+  border:1px solid rgba(255,255,255,.1)!important;
+}
+#about .owner-img{
+  width:35%!important;max-width:360px!important;min-height:290px;
+  object-fit:cover!important;border-radius:16px!important;
+}
+#contact .section-title{font-size:1.8rem}
+#contact .signup{
+  border-radius:20px!important;
+  background:rgba(8,16,35,.96)!important;
+  border:1px solid rgba(255,255,255,.1)!important;
+}
+footer{margin-top:35px!important;background:#020611!important}
+
+/* Floating social rail like the reference */
+.reference-socials{
+  position:fixed;right:22px;top:50%;transform:translateY(-50%);
+  z-index:450;display:flex;flex-direction:column;gap:12px;
+}
+.reference-socials a{
+  width:42px;height:42px;border-radius:50%;
+  display:grid;place-items:center;text-decoration:none;
+  color:#fff;background:rgba(6,12,28,.78);
+  border:1px solid rgba(255,255,255,.2);
+  backdrop-filter:blur(10px);
+  transition:.25s;
+}
+.reference-socials a:hover{
+  transform:scale(1.12);
+  border-color:#ff2f78;
+  box-shadow:0 0 22px rgba(255,47,120,.25);
+}
+@media(max-width:900px){
+  .hero{grid-template-columns:1fr!important;padding-top:105px!important}
+  .hero-copy{padding-left:0}
+  .hero-art{min-height:390px!important}
+  .console{inset:5% 2% 8% 2%!important}
+  .reference-socials{display:none}
+}
+@media(max-width:600px){
+  .hero h1{font-size:3.3rem!important}
+  .hero-art{min-height:330px!important}
+  .console{padding:22px!important}
+  .hero-stats{gap:10px}
+  .hero-stats div{padding:0 10px!important}
+  .trending-head,.trending-rail{padding-left:20px!important;padding-right:20px!important}
+  .browse-toggle{margin-left:20px!important;margin-right:20px!important}
+  #about .about{display:block}
+  #about .owner-img{width:100%!important;max-width:none;min-height:220px}
+}
+</style>
+</head>
+<body>
+<div class="reference-socials" aria-label="Social links">
+  <a href="#" aria-label="Facebook">f</a>
+  <a href="#" aria-label="Instagram">◎</a>
+  <a href="#" aria-label="YouTube">▶</a>
+  <a href="#" aria-label="Twitter">𝕏</a>
+</div>
+
+<nav>
+  <a class="logo" href="#home">KK <span>GAMES INFO</span></a>
+  <div class="navlinks">
+    <a href="#games-page">Games</a><a href="#featured">Featured</a><a href="#about">Owner</a><a href="#contact">Contact</a>
+    <a class="btn" href="#signup">Sign Up</a>
+  </div>
+</nav>
+
+
+
+<header class="hero" id="home">
+  <div class="hero-copy">
+    <span class="badge">WELCOME TO KK GAMES INFO</span>
+    <h1>Discover. Play.<br><span class="gradient">Win Together.</span></h1>
+    <p>Your ultimate destination for discovering the best mobile games. Explore, download and enjoy top games handpicked for you. Play more. Win more. Have fun!</p>
+    <div class="hero-actions">
+      <a class="btn" href="#games">🎮 Explore Games</a>
+      <a class="btn ghost" href="#about">👤 About Owner</a>
+    </div>
+    <div class="hero-stats">
+      <div><b>20+</b><span>Games</span></div>
+      <div><b>10K+</b><span>Downloads</span></div>
+      <div><b>100%</b><span>Trusted</span></div>
+    </div>
+  </div>
+  <div class="hero-art">
+    <div class="console">
+      <span class="badge">🔥 TRENDING NOW</span>
+      <h3>Find your next favourite game.</h3>
+      <div class="mini-grid">
+        <div class="mini">⚔️ ACTION</div>
+        <div class="mini">🏎️ RACING</div>
+        <div class="mini">😊 CASUAL</div>
+        <div class="mini">⚽ SPORTS</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+
+
+<section class="scroll-video" id="scrollVideo">
+  <div class="scroll-video-sticky">
+    <img class="scroll-video-frame active" src="scroll-video/frame-01.jpg" alt="" aria-hidden="true"><img class="scroll-video-frame" src="scroll-video/frame-02.jpg" alt="" aria-hidden="true"><img class="scroll-video-frame" src="scroll-video/frame-03.jpg" alt="" aria-hidden="true"><img class="scroll-video-frame" src="scroll-video/frame-04.jpg" alt="" aria-hidden="true"><img class="scroll-video-frame" src="scroll-video/frame-05.jpg" alt="" aria-hidden="true"><img class="scroll-video-frame" src="scroll-video/frame-06.jpg" alt="" aria-hidden="true">
+    <div class="scroll-video-overlay"></div>
+    <div class="scroll-video-copy">
+      <span class="badge">🎮 KK GAMES INFO • SCROLL EXPERIENCE</span>
+      <h2>Every Scroll.<br><span class="gradient">A New Game.</span></h2>
+      <p>Explore the world of KK GAMES INFO through a cinematic, scroll-controlled visual sequence. Keep scrolling to move through the 10-second-style showcase and discover the gaming experience behind the site.</p>
+    </div>
+    <div class="scroll-video-progress">
+      <span id="scrollVideoTime">00:00 / 00:10</span>
+      <i><b id="scrollVideoBar"></b></i>
+    </div>
+  </div>
+</section>
+
+
+<section class="section" id="games">
+  <div class="home-panel">
+    <div class="trending-head">
+      <div>
+        <span class="badge">TRENDING GAMES</span>
+        <h2>Most Loved Games</h2>
+        <p>Popular picks selected for the KK GAMES INFO community.</p>
+      </div>
+      <a class="btn ghost" href="#games-page">View All Games ▦</a>
+    </div>
+    <div class="trending-rail" id="trendingRail"></div>
+    <div class="browse-toggle" id="browseToggle"><div class="line"></div><span id="browseLabel">🎮 Browse All Games</span><div class="line"></div></div>
+    <div class="browse-panel" id="browsePanel">
+      <div class="browse-inner">
+        <div class="search-wrap"><input id="search" placeholder="🔍 Search games..."><button class="btn" onclick="filterGames()">Search</button></div>
+        <div class="filters">
+          <button class="filter active" data-cat="All">All</button><button class="filter" data-cat="Trending">🔥 Trending</button><button class="filter" data-cat="Action">⚔️ Action</button><button class="filter" data-cat="Casual">😊 Casual</button><button class="filter" data-cat="Racing">🏎️ Racing</button><button class="filter" data-cat="Sports">⚽ Sports</button><button class="filter" data-cat="Strategy">🏰 Strategy</button><button class="filter" data-cat="Card">🃏 Card</button>
+        </div>
+        <div class="games" id="gamesGrid"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section" id="featured">
+ <div class="feature">
+  <div class="feature-art">🏆<br>FEATURED<br><span class="gradient">GAME</span></div>
+  <div class="feature-info"><span class="badge">⭐ EDITOR'S PICK</span><h2>Game of the Week</h2><h3 id="featureName">BGMI</h3>
+   <p id="featureText">A popular battle royale experience with competitive matches and team-based gameplay.</p>
+   <div class="gallery">
+<img class="shot" src="https://akm-img-a-in.tosshub.com/indiatoday/images/story/202107/Battlegrounds_Mobile_India.jpeg?size=1200%3A675" alt="BGMI gameplay">
+<img class="shot" src="https://staticg.sportskeeda.com/editor/2023/07/852f4-16902181350548-1920.jpg" alt="Free Fire gameplay">
+<img class="shot" src="https://miro.medium.com/v2/1%2Aapz4GHKY2VOpfj9kE8J8Hw%402x.jpeg" alt="Call of Duty Mobile gameplay">
+<img class="shot" src="https://cdn.amz.appget.com/c/wp-content/uploads/2017/11/62286_screen_1.png" alt="Subway Surfers gameplay">
+<img class="shot" src="https://images.squarespace-cdn.com/content/v1/5c95f8d416b640656eb7765a/7224ebcc-1a23-4baf-98ad-d316eb94feba/ea%2Bsports%2Bfc%2Bmobile%2Bscreen%2B1.jpg" alt="FC Mobile gameplay">
+</div>
+   <a id="featureLink" class="btn" target="_blank">View on Google Play</a>
+  </div>
+ </div>
+</section>
+
+<section class="section">
+ <h2 class="section-title">✨ Why KK GAMES INFO?</h2>
+ <div class="games" style="margin-top:25px">
+  <div class="card"><div class="cover bg4">🔎 EASY DISCOVERY</div><div class="card-body"><p>Quickly find games by name, category and popularity.</p></div></div>
+  <div class="card"><div class="cover bg6">🔐 OFFICIAL LINKS</div><div class="card-body"><p>Download buttons take users to Google Play search or official listings.</p></div></div>
+  <div class="card"><div class="cover bg8">📱 MOBILE READY</div><div class="card-body"><p>The website adapts beautifully to phones, tablets and computers.</p></div></div>
+ </div>
+</section>
+
+
+<section class="section home-owner" id="about">
+  <div class="about">
+    <img class="owner-img" src="owner.jpg" alt="Kiran Kumar Mohanta">
+    <div>
+      <span class="badge">ABOUT THE OWNER</span>
+      <h2>Hey, I’m <span class="gradient">KK</span> 👋</h2>
+      <p class="section-sub">I created KK GAMES INFO to help gamers find the best games, tips and updates in one place. My mission is to build a friendly gaming community where everyone can discover, play and enjoy amazing games together.</p>
+      <div class="contact-box">
+        <div class="chip">📧 kukiran843@gmail.com</div>
+        <div class="chip">📞 6372116360</div>
+        <div class="chip">📍 Baripada, Odisha, India</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<section class="section home-feedback" id="contact">
+  <h2 class="section-title">💌 Join KK Games Family</h2>
+  <p class="section-sub">Sign up and share your feedback with us.</p>
+  <form class="signup" id="signup">
+    <div><label>Your Name</label><input required placeholder="Your Name"></div>
+    <div><label>Email Address</label><input required type="email" placeholder="Email Address"></div>
+    <div><label>Feedback</label><textarea rows="1" placeholder="Your Feedback..."></textarea></div>
+    <button class="btn" type="submit">Create Account / Send Feedback 🚀</button>
+  </form>
+</section>
+
+
+<footer>© 2026 KK GAMES INFO • Created & Owned by <b>KIRAN KUMAR MOHANTA</b> • Student Project</footer>
+<button id="topBtn" onclick="scrollTo({top:0,behavior:'smooth'})">↑</button>
+<div class="toast" id="toast">🎉 Thanks! Your demo form was submitted.</div>
+<div class="wishlist-popup" id="wishlistPopup">
+  ❤️ Added to Wishlist!
+  <small id="wishlistGame">Game saved successfully.</small>
+</div>
+
+<div class="detail-page" id="gamePage"></div>
+
+<script>
+const games=[
+{name:"BGMI",cat:"Action",trending:true,rank:1,rating:"⭐ 4.2",dev:"Krafton, Inc.",platform:"Android, iOS",players:"1–100 (Solo/Duo/Squad)",size:"~830 MB",released:"2021",desc:"A competitive battle royale experience with squads, strategy and intense matches.",longDesc:"Battlegrounds Mobile India drops up to 100 players onto a shrinking island where only one squad walks away with the chicken dinner. Loot weapons and gear, drive vehicles across Erangel, Miramar and Livik, and outlast the closing safe zone using cover, sound cues and squad callouts. Ranked seasons, a Royale Pass and frequent themed events keep the meta evolving.",img:"https://akm-img-a-in.tosshub.com/indiatoday/images/story/202107/Battlegrounds_Mobile_India.jpeg?size=1200%3A675",gallery:["https://akm-img-a-in.tosshub.com/indiatoday/images/story/202107/Battlegrounds_Mobile_India.jpeg?size=1200%3A675","https://akm-img-a-in.tosshub.com/indiatoday/images/story/202107/Battlegrounds_Mobile_India.jpeg?size=1200%3A675","https://akm-img-a-in.tosshub.com/indiatoday/images/story/202107/Battlegrounds_Mobile_India.jpeg?size=1200%3A675","https://akm-img-a-in.tosshub.com/indiatoday/images/story/202107/Battlegrounds_Mobile_India.jpeg?size=1200%3A675"],q:"Battlegrounds Mobile India BGMI"},
+{name:"Free Fire MAX",cat:"Action",trending:true,rank:2,rating:"⭐ 4.2",dev:"Garena International",platform:"Android, iOS",players:"1–52 (Solo/Duo/Squad)",size:"~700 MB",released:"2021",desc:"Fast-paced battle royale gameplay with short matches and character abilities.",longDesc:"Free Fire MAX compresses the battle royale format into 10-minute matches built for mobile. A roster of characters brings unique active and passive abilities into every drop, on top of the usual scavenging, gunfights and shrinking play zone. Enhanced graphics over the original Free Fire, Clash Squad's 4v4 mode and regular collab events keep the pace quick.",img:"https://staticg.sportskeeda.com/editor/2023/07/852f4-16902181350548-1920.jpg",gallery:["https://staticg.sportskeeda.com/editor/2023/07/852f4-16902181350548-1920.jpg","https://staticg.sportskeeda.com/editor/2023/07/852f4-16902181350548-1920.jpg","https://staticg.sportskeeda.com/editor/2023/07/852f4-16902181350548-1920.jpg","https://staticg.sportskeeda.com/editor/2023/07/852f4-16902181350548-1920.jpg"],q:"Free Fire MAX"},
+{name:"Call of Duty: Mobile",cat:"Action",trending:true,rank:3,rating:"⭐ 4.3",dev:"Activision / TiMi Studios",platform:"Android, iOS",players:"1–100",size:"~2.4 GB",released:"2019",desc:"Popular mobile shooter featuring multiplayer modes and battle royale.",longDesc:"Call of Duty: Mobile brings maps, modes and operators from the console franchise to touchscreens. Jump between fast 5v5 multiplayer on remastered classics like Nuketown and Crash, a 100-player battle royale across Isolated, or seasonal ranked ladders. Weapon blueprints, a battle pass and cross-progression through seasons keep the loadout grind going.",img:"https://miro.medium.com/v2/1%2Aapz4GHKY2VOpfj9kE8J8Hw%402x.jpeg",gallery:["https://miro.medium.com/v2/1%2Aapz4GHKY2VOpfj9kE8J8Hw%402x.jpeg","https://miro.medium.com/v2/1%2Aapz4GHKY2VOpfj9kE8J8Hw%402x.jpeg","https://miro.medium.com/v2/1%2Aapz4GHKY2VOpfj9kE8J8Hw%402x.jpeg","https://miro.medium.com/v2/1%2Aapz4GHKY2VOpfj9kE8J8Hw%402x.jpeg"],q:"Call of Duty Mobile"},
+{name:"Subway Surfers",cat:"Casual",trending:true,rank:4,rating:"⭐ 4.5",dev:"SYBO Games",platform:"Android, iOS",players:"1 (Global leaderboards)",size:"~180 MB",released:"2012",desc:"An endless running game with colourful locations and quick gameplay.",longDesc:"Subway Surfers is an endless runner where Jake and friends dodge oncoming trains, swipe between tracks and grind rails to stay one step ahead of the grumpy inspector and his dog. New rotating world tours bring fresh cities, boards, characters and hoverboard power-ups roughly every month, keeping the same pick-up-and-play loop feeling new.",img:"https://cdn.amz.appget.com/c/wp-content/uploads/2017/11/62286_screen_1.png",gallery:["https://play-lh.googleusercontent.com/0WDSfcGVkNLrbllx6z5GaNVA5ubkuBy5xBxfD8se188KrSqO2c-AJMRguiJMyacj5nx58-sIlJU7IXbYz18CyA%3Dw526-h296","https://play-lh.googleusercontent.com/r1EF2Yo2IQUeXIvAB-ZQe6-7PNGc_sIEeUKMhcpGi7AUpvtiZruKU5EVoSQj0JeAZ5nt4AXAp5J692rX1qS54A%3Dw526-h296","https://play-lh.googleusercontent.com/J_f57RMIePk00kPk314eu71k2Orz9aCU6QnKyksO0j9PjikecNjGmRPUvm2QBi7aNteCuLcXDpePgInLrtYL%3Dw526-h296","https://play-lh.googleusercontent.com/78jx66c3X3FrETBI9HegaXUHEHaK1cdEEmrkl15FHcMKIZfwVE9A-uIEc78bgd4nOf80RN4LHriANXEHkcwU%3Dw526-h296","https://play-lh.googleusercontent.com/t0eJqWkGnQXIkNoQF7lN9gDnu2W1E0Mg4n0HE-gepA3CP-caz4-Mg9P-hQ4mybEVKvU1_CxlhfOHrfbELZIAug%3Dw526-h296"],q:"Subway Surfers"},
+{name:"PUBG New State",cat:"Action",trending:true,rank:5,rating:"⭐ 4.0",dev:"Krafton, Inc.",platform:"Android, iOS",players:"1–100",size:"~3.1 GB",released:"2021",desc:"A futuristic battle royale set in 2051 with drones, vehicles and deep customisation.",longDesc:"PUBG: New State pushes the battle royale formula into a near-future setting. Drones scout enemy positions, deployable shields create cover on demand, and weapon customisation lets you fine-tune loadouts piece by piece. Two large maps — Troi and a reworked Erangel — support the same 100-player last-squad-standing tension the series is known for.",cover:"bg9",emoji:"🛸",gallery:[],q:"PUBG New State"},
+{name:"Garena Free Fire",cat:"Action",trending:true,rank:6,rating:"⭐ 4.1",dev:"Garena International",platform:"Android, iOS",players:"1–52 (Solo/Duo/Squad)",size:"~450 MB",released:"2017",desc:"The original lightweight battle royale built for low-end phones and quick matches.",longDesc:"Garena Free Fire is the original, lighter-weight sibling to Free Fire MAX, built to run smoothly even on entry-level phones. Ten-minute matches, a large cast of characters with unique abilities, and modes like Clash Squad and Lone Wolf keep sessions short and replayable, while regular collabs and a Booyah Pass drive ongoing content.",cover:"bg16",emoji:"🔥",gallery:[],q:"Garena Free Fire"},
+{name:"Ludo King",cat:"Casual",trending:true,rank:7,rating:"⭐ 4.5",dev:"Gametion Technologies",platform:"Android, iOS",players:"2–4 (Local/Online)",size:"~110 MB",released:"2016",desc:"The classic board game of Ludo and Snakes & Ladders, playable online with friends.",longDesc:"Ludo King digitises the classic Ludo board game along with Snakes & Ladders, letting up to four players compete locally on one device or online with friends and strangers worldwide. Voice chat, private tables, and daily tournaments turn a simple dice-and-token game into a genuinely social mobile pastime.",cover:"bg5",emoji:"🎲",gallery:["https://play-lh.googleusercontent.com/ODYAnRdNqJduH8ZAckodyUM6nFnainP-XIrEpj00WtxC4GRLVUrcxEIHSBauPXmsVxNIsvzHk9jRMvzzoSuffw%3Dw526-h296","https://play-lh.googleusercontent.com/Hol88hRJGlef8T-Kxxa0tTLO0WqbkVtU4OfGcHfpIm6PUESiKe9ioegfRxItCmuMOg8bDmtyfyCtFWTbV4SX9w%3Dw526-h296","https://play-lh.googleusercontent.com/Dbzn2oswL_4Af8JsMetpxkxgNHWmWryEHw3dqvIXDAxLaCQGeLsS7nlLv3uoD78G3RQZPeRKgc-FzSkXy8UVVw%3Dw526-h296","https://play-lh.googleusercontent.com/ze9vKvhu4UD5AFlMyYLEQ6qAZaoLGYQysbB2qDLj0eU8UUcm9JltZwC3f--HDOKVCO6irfgFg-J0wakW7QBC_w%3Dw526-h296","https://play-lh.googleusercontent.com/juQYFe1-7Eds53L7jzmJZnKFmpIGAI3BGK6HLjdaNjmi6gKQmUgCBem6u2eY600kVo4QzoxmRpV9_YyNL7f41g%3Dw526-h296"],q:"Ludo King"},
+{name:"Asphalt Legends",cat:"Racing",trending:false,rating:"⭐ 4.4",dev:"Gameloft",platform:"Android, iOS",players:"1–8 (Multiplayer)",size:"~3.5 GB",released:"2024",desc:"Arcade-style racing with fast cars, stunts and competitive events.",longDesc:"Asphalt Legends Unite (the current evolution of the Asphalt series) puts licensed supercars and bikes through arcade physics built for big drifts and mid-air stunts. Career campaigns, live seasonal events and cross-platform multiplayer races let you climb leaderboards, while a growing garage of vehicles can be tuned and customised.",img:"https://images.unsplash.com/photo-1504215680853-026ed2a45def?auto=format&fit=crop&w=1200&q=80",gallery:["https://images.unsplash.com/photo-1504215680853-026ed2a45def?auto=format&fit=crop&w=1200&q=80","https://images.unsplash.com/photo-1504215680853-026ed2a45def?auto=format&fit=crop&w=1200&q=80","https://images.unsplash.com/photo-1504215680853-026ed2a45def?auto=format&fit=crop&w=1200&q=80","https://images.unsplash.com/photo-1504215680853-026ed2a45def?auto=format&fit=crop&w=1200&q=80"],q:"Asphalt Legends"},
+{name:"EA SPORTS FC Mobile",cat:"Sports",trending:false,rating:"⭐ 4.3",dev:"EA Sports",platform:"Android, iOS",players:"1 vs 1 (Online)",size:"~1.2 GB",released:"2023",desc:"Build your football team and play matches with popular clubs and players.",longDesc:"EA SPORTS FC Mobile lets you build a squad from real clubs and players, then take them through manager career mode, VS Attack head-to-head matches and live seasonal campaigns tied to real-world football events. Skill moves, tactics and player chemistry carry over the touch controls that made the console series popular.",img:"https://images.squarespace-cdn.com/content/v1/5c95f8d416b640656eb7765a/7224ebcc-1a23-4baf-98ad-d316eb94feba/ea%2Bsports%2Bfc%2Bmobile%2Bscreen%2B1.jpg",gallery:["https://images.squarespace-cdn.com/content/v1/5c95f8d416b640656eb7765a/7224ebcc-1a23-4baf-98ad-d316eb94feba/ea%2Bsports%2Bfc%2Bmobile%2Bscreen%2B1.jpg","https://images.squarespace-cdn.com/content/v1/5c95f8d416b640656eb7765a/7224ebcc-1a23-4baf-98ad-d316eb94feba/ea%2Bsports%2Bfc%2Bmobile%2Bscreen%2B1.jpg","https://images.squarespace-cdn.com/content/v1/5c95f8d416b640656eb7765a/7224ebcc-1a23-4baf-98ad-d316eb94feba/ea%2Bsports%2Bfc%2Bmobile%2Bscreen%2B1.jpg","https://images.squarespace-cdn.com/content/v1/5c95f8d416b640656eb7765a/7224ebcc-1a23-4baf-98ad-d316eb94feba/ea%2Bsports%2Bfc%2Bmobile%2Bscreen%2B1.jpg"],q:"EA SPORTS FC Mobile"},
+{name:"Candy Crush Saga",cat:"Casual",trending:false,rating:"⭐ 4.6",dev:"King",platform:"Android, iOS",players:"1 (Optional social features)",size:"~120 MB",released:"2012",desc:"A classic match-three puzzle game with hundreds of colourful levels.",longDesc:"Candy Crush Saga is the match-three puzzle that turned swiping rows of candy into a household habit. Thousands of levels layer in new mechanics — jelly, chocolate, order goals, striped and wrapped candy combos — while limited lives and boosters add a light strategic layer between attempts. Weekly events and a map-style world keep long-time players coming back.",img:"https://www.mobygames.com/images/shots/l/971559-candy-crush-saga-iphone-screenshot-gameplay.jpg",gallery:["https://play-lh.googleusercontent.com/ag1oRSUvV98gk4Dymqzr-ipo_dOlBHQ9GpeX6YAgSosrVZdYHTk7Rk9F5dCU3OYOOcE2Cz684mZd7YwWgcHruUo%3Dw526-h296","https://play-lh.googleusercontent.com/-cTpF5AHezpwI714CneDpOBg11wo6tBbmHVOyAfEi1CZ4oHiueva10TSgMoHocWb6GdbeMRyvMxiPf1PDvdA2bg%3Dw526-h296","https://play-lh.googleusercontent.com/uOOjwkDvZXUdvmwgKgdHRjMQZH6YL40kwL9HUmuPzgiv-2LZ8AkEZSxIEaFaORcahQlyUG9LhyL-Czxca5kegjc%3Dw526-h296","https://play-lh.googleusercontent.com/QzH6RBjzH7BeD9kh-gcQ2SvlznIxulGlDK942TFFLDfQ0rNFSHnyJ7zlXunf9T788GQOpeGrU1FNt57_Je9Q8g%3Dw526-h296","https://play-lh.googleusercontent.com/QGxdSmeqYtzSgIbj3NTlMn0zdCvp_5Wb208hSWzJJ3fp9J7NWReBlZmpzpaAKQkTQ5qTUajR-T4GqSa6xqyGZg%3Dw526-h296"],q:"Candy Crush Saga"},
+{name:"Real Cricket",cat:"Sports",trending:false,rating:"⭐ 4.2",dev:"Nautilus Mobile",platform:"Android, iOS",players:"1 (Career/Tournaments)",size:"~450 MB",released:"2015",desc:"Cricket gameplay featuring matches, tournaments and multiple modes.",longDesc:"Real Cricket focuses on the mechanics that matter to cricket fans: timing-based batting, line-and-length bowling, and fielding placements across quick T20s, full ODIs and career-mode tournaments. Licensed teams, stadiums and commentary aim to recreate the broadcast feel, and difficulty settings scale from casual knocks to realistic simulation.",img:"https://s3.amazonaws.com/nichesites-files/appstoplay_com/images/games/14358/gallery/44884.jpg",gallery:["https://s3.amazonaws.com/nichesites-files/appstoplay_com/images/games/14358/gallery/44884.jpg","https://s3.amazonaws.com/nichesites-files/appstoplay_com/images/games/14358/gallery/44884.jpg","https://s3.amazonaws.com/nichesites-files/appstoplay_com/images/games/14358/gallery/44884.jpg","https://s3.amazonaws.com/nichesites-files/appstoplay_com/images/games/14358/gallery/44884.jpg"],q:"Real Cricket"},
+{name:"8 Ball Pool",cat:"Sports",trending:false,rating:"⭐ 4.5",dev:"Miniclip",platform:"Android, iOS",players:"1 vs 1 / Tournaments",size:"~90 MB",released:"2013",desc:"Pick up a cue and play classic 8-ball and 9-ball pool against players worldwide.",longDesc:"8 Ball Pool turns real pool physics into quick head-to-head matches. Line up trick shots with an adjustable aim guide, wager coins in 1v1 tables, or climb tournament brackets for exclusive cues. A big collection of collectible cues and themed tables keeps long-term players customising their setup.",cover:"bg12",emoji:"🎱",gallery:["https://play-lh.googleusercontent.com/Fto3PVMUTGH7PtDuWzJlDyDAWzbf7ThNKQuCeomanubIggPp1Z_qkk19QHRWVeh2rBiyToB2hTyD04XVliDsT5U%3Dw526-h296","https://play-lh.googleusercontent.com/h47FZaYPKAyVN9-TZmElXxvx5lG4r46Zr586-0xD9VxX08iJDb7uT8yf_GCUFyoqSyd1WYs4sILbUUBcBf32beY%3Dw526-h296","https://play-lh.googleusercontent.com/VH8O2YBxZNw4QJj3RLZKORX-j1dB3SKD8v0kfQr4767bHaMc8_gZHGJ8hE0gEhHKsfh85JxWSxR1FBw5B6jecLY%3Dw526-h296","https://play-lh.googleusercontent.com/qJHrs6Cf5iQPlA7JhjgR6TLEGjnnkxFAiKBDzbXmHndoPnYmPWGKU75bF122KPNSp5iB9MqRc15DBWA1hqnEQ6M%3Dw526-h296","https://play-lh.googleusercontent.com/_FmvxR42FpeDOxl9PrFV6Nd18mTmIl061oBN8LdJjLnhqCjeATnCjjXDXR_sxs43j4WHIVHpCSL6tOuI7fWbdg%3Dw526-h296"],q:"8 Ball Pool"},
+{name:"Temple Run 2",cat:"Casual",trending:false,rating:"⭐ 4.4",dev:"Imangi Studios",platform:"Android, iOS",players:"1 (Global leaderboards)",size:"~130 MB",released:"2013",desc:"Sprint through ancient temple ruins, dodging obstacles and collecting coins.",longDesc:"Temple Run 2 keeps you sprinting along crumbling temple paths, sliding under fire pits, leaping chasms and turning corners on cliff-edge trails while an angry idol gains ground behind you. Power-ups, temple runs across different scenic backdrops, and a coin-based upgrade system give the endless-runner formula lasting replay value.",cover:"bg17",emoji:"🏛️",gallery:["https://play-lh.googleusercontent.com/L2yw4jhP-SoYJj8pSPcsLwoIAobrE8j3d3x3irOtDKvXYweA6YR_qyAglPvD9Kz-FfbM4k_nIgPVF8Orig5F%3Dw526-h296","https://play-lh.googleusercontent.com/uAiz2eWQ69NTd9-P7063HiTuT9CTy3gnzJ_LY9IeLF8J649XHZcwfT6VgZqjlf61_qeGH3mjAkOwXbec9-HdHQ%3Dw526-h296","https://play-lh.googleusercontent.com/Gj4ejwVL2U6Izo_ldmmlanOuNl7s_g6O4Plf2iZ3429g5OR-NpZhVJgXJu8-37YR2p3HNqFPRe0eqvdyghCb%3Dw526-h296","https://play-lh.googleusercontent.com/-rLOCoLoqGm5tvjrZx-vBhtNmLf6RG2lTK0cIVW10Oc2Rjeli8v9s7cCWVDYu0Luxwm1mVoKUM_5LKMiC2d66Q%3Dw526-h296","https://play-lh.googleusercontent.com/-p5LmyTf_xCIBHuqr919jSL4z2KpTgfYskPpGFRkAng2w-ZJrzsyD2nVLxssmqpOYfeFoGG0hRKeRPzmq5YF_g%3Dw526-h296"],q:"Temple Run 2"},
+{name:"Clash of Clans",cat:"Strategy",trending:false,rating:"⭐ 4.5",dev:"Supercell",platform:"Android, iOS",players:"Clan-based multiplayer",size:"~250 MB",released:"2012",desc:"Build your village, train troops and battle other clans in this strategy classic.",longDesc:"Clash of Clans has you build and defend a village, train an army of troops, and raid other players' bases for loot. Joining or founding a Clan opens up Clan Wars and Clan Capital raids, where coordinated attack planning matters as much as your own base's defenses. Regular Town Hall updates keep the strategy layer evolving.",cover:"bg10",emoji:"🏰",gallery:[],q:"Clash of Clans"},
+{name:"Clash Royale",cat:"Strategy",trending:false,rating:"⭐ 4.4",dev:"Supercell",platform:"Android, iOS",players:"1 vs 1 / 2 vs 2",size:"~180 MB",released:"2016",desc:"Real-time card-battle strategy where you deploy troops to destroy enemy towers.",longDesc:"Clash Royale blends card-collecting with real-time strategy: build an eight-card deck of troops, spells and buildings, then out-think your opponent in fast three-minute duels to knock down towers. Trophy-based ladders, clan wars and a rotating ranked meta keep deck-building relevant match after match.",cover:"bg13",emoji:"👑",gallery:[],q:"Clash Royale"},
+{name:"Among Us",cat:"Casual",trending:false,rating:"⭐ 4.3",dev:"Innersloth",platform:"Android, iOS",players:"4–15 (Online/Local)",size:"~250 MB",released:"2018",desc:"Complete tasks aboard a spaceship — or secretly sabotage the crew as the impostor.",longDesc:"Among Us drops a crew of colourful astronauts onto a ship, base or planet with tasks to complete — while one or more hidden impostors try to pick off crewmates without getting caught. Emergency meetings turn every round into a social deduction argument, making it as much a party game as it is a task-completion race.",cover:"bg14",emoji:"👨‍🚀",gallery:[],q:"Among Us"},
+{name:"Stumble Guys",cat:"Casual",trending:false,rating:"⭐ 4.3",dev:"Kitka Games",platform:"Android, iOS",players:"Up to 32 (Online)",size:"~450 MB",released:"2020",desc:"A chaotic knockout party game — race, dodge and out-last 31 other players.",longDesc:"Stumble Guys throws up to 32 players into obstacle-course mini-games where clumsy physics are half the fun. Survive rounds of dodging swinging hammers, crossing rolling logs and racing to the finish line, with each elimination round thinning the field until one wobbly bean-shaped winner remains.",cover:"bg11",emoji:"🏃",gallery:[],q:"Stumble Guys"},
+{name:"Mini Militia",cat:"Action",trending:false,rating:"⭐ 4.2",dev:"AppSomniacs",platform:"Android",players:"Up to 6 (Online/WiFi)",size:"~40 MB",released:"2014",desc:"2D multiplayer shooter with jetpacks, ragdoll physics and chaotic close-range fights.",longDesc:"Mini Militia (Doodle Army 2) is a lightweight 2D multiplayer shooter where jetpacks let you dodge and dive around bullet-riddled arenas. Ragdoll physics, a wide arsenal, and simple WiFi/online lobbies made it a staple for quick local multiplayer sessions with friends on a shared network.",cover:"bg18",emoji:"🪂",gallery:[],q:"Mini Militia Doodle Army 2"},
+{name:"Genshin Impact",cat:"Action",trending:false,rating:"⭐ 4.5",dev:"HoYoverse",platform:"Android, iOS",players:"1 (Co-op up to 4)",size:"~30 GB",released:"2020",desc:"An open-world action RPG with elemental combat and a constantly expanding map.",longDesc:"Genshin Impact is a sprawling open-world action RPG where you build a party of elemental characters and combine fire, water, wind, electro and more to chain combat reactions. Exploration rewards puzzle-solving and climbing as much as fighting, and regular story updates keep expanding the map region by region.",cover:"bg19",emoji:"⚔️",gallery:[],q:"Genshin Impact"},
+{name:"Teen Patti Gold",cat:"Card",trending:false,rating:"⭐ 4.3",dev:"Moonfrog Labs",platform:"Android, iOS",players:"Multiplayer tables",size:"~95 MB",released:"2013",desc:"India's favourite 3-card game, playable online at live multiplayer tables.",longDesc:"Teen Patti Gold brings the classic Indian card game of Teen Patti online, seating you at live multiplayer tables with variants like Joker, AK47 and Muflis. Daily bonuses, private tables for playing with friends, and a range of stake levels make it a familiar, social way to play a game most Indian households already know.",cover:"bg20",emoji:"🃏",gallery:[],q:"Teen Patti Gold"}
+];
+
+let currentCat="All";
+function playLink(q){
+  return "https://play.google.com/store/search?q="+encodeURIComponent(q)+"&c=apps";
+}
+function coverStyle(g){return g.img?`style="background-image:url('${g.img}')"`:`class="cover ${g.cover}"`;}
+
+function renderTrending(){
+ const rail=document.getElementById("trendingRail");
+ const top=games.filter(g=>g.trending).sort((a,b)=>a.rank-b.rank);
+ rail.innerHTML=top.map(g=>`<div class="trend-card" onclick="openGamePage('${encodeURIComponent(g.name)}')">
+   <div class="trend-cover ${g.img?'':g.cover}" ${g.img?`style="background-image:url('${g.img}')"`:''}><span class="trend-rank">#${g.rank}</span>${g.img?'':`<span style="position:absolute;right:10px;top:10px;font-size:1.6rem">${g.emoji}</span>`}</div>
+   <div class="trend-body"><b>${g.name}</b><span>${g.cat} · ${g.rating}</span></div>
+ </div>`).join("");
+}
+
+function renderGames(){
+ const term=document.getElementById("search").value.toLowerCase().trim();
+ const grid=document.getElementById("gamesGrid");grid.innerHTML="";
+ const shown=games.filter(g=>(currentCat==="All"||g.cat===currentCat||(currentCat==="Trending"&&g.trending))&&(g.name.toLowerCase().includes(term)||g.cat.toLowerCase().includes(term)));
+ if(!shown.length){grid.innerHTML="<p style='color:#aeb9d5'>No games found. Try another search.</p>";return}
+ shown.forEach((g,i)=>{
+  const coverHtml=g.img?`<div class="cover" style="background-image:url('${g.img}')">${g.name}</div>`:`<div class="cover ${g.cover}">${g.emoji} ${g.name}</div>`;
+  grid.innerHTML+=`<article class="card reveal" style="--i:${i}" onclick="openGamePage('${encodeURIComponent(g.name)}')">${coverHtml}<div class="card-body"><div class="meta"><span>${g.cat}</span><span>${g.rating}</span></div><p>${g.desc}</p><div style="color:#8fb5ff;font-size:.78rem;font-weight:700;margin:-3px 0 12px">↗ Tap card to explore</div><div class="card-actions" onclick="event.stopPropagation()"><a class="btn small" target="_blank" href="${playLink(g.q)}">📥 Official Google Play</a><button class="btn fav" onclick="favorite('${g.name}')">♡</button></div></div></article>`;
+ });
+}
+function filterGames(){renderGames();setTimeout(observeReveals,0)}
+document.querySelectorAll(".filter").forEach(b=>b.onclick=()=>{currentCat=b.dataset.cat;document.querySelectorAll(".filter").forEach(x=>x.classList.remove("active"));b.classList.add("active");renderGames();setTimeout(observeReveals,0)});
+document.getElementById("search").addEventListener("input",()=>{renderGames();setTimeout(observeReveals,0)});
+function favorite(name){
+  showWishlistPopup(name, true);
+}
+function showWishlistPopup(name, added){
+  const p=document.getElementById("wishlistPopup");
+  const g=document.getElementById("wishlistGame");
+  if(!p)return;
+  g.textContent=added
+    ? name+" has been added to your wishlist."
+    : name+" has been removed from your wishlist.";
+  p.classList.add("show");
+  clearTimeout(window.wishlistTimer);
+  window.wishlistTimer=setTimeout(()=>p.classList.remove("show"),2600);
+}
+function toggleDetailWishlist(name){
+  const key="kk-wishlist";
+  let list=JSON.parse(localStorage.getItem(key)||"[]");
+  const index=list.indexOf(name);
+  const btn=document.getElementById("detailWishlistBtn");
+  if(index===-1){
+    list.push(name);
+    localStorage.setItem(key,JSON.stringify(list));
+    if(btn){btn.textContent="♥ In Wishlist";btn.classList.add("saved");}
+    showWishlistPopup(name,true);
+  }else{
+    list.splice(index,1);
+    localStorage.setItem(key,JSON.stringify(list));
+    if(btn){btn.textContent="♡ Add to Wishlist";btn.classList.remove("saved");}
+    showWishlistPopup(name,false);
+  }
+}
+function showToast(msg){const t=document.getElementById("toast");t.textContent=msg;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),2500)}
+document.getElementById("signup").addEventListener("submit",e=>{e.preventDefault();showToast("🎉 Demo submitted successfully!");e.target.reset()});
+window.addEventListener("scroll",()=>document.getElementById("topBtn").style.display=scrollY>500?"block":"none");
+document.getElementById("featureLink").href=playLink("Battlegrounds Mobile India BGMI");
+const observer=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add("visible")}),{threshold:.12});
+function observeReveals(){document.querySelectorAll(".reveal:not(.visible)").forEach(el=>observer.observe(el))}
+
+/* ---- Browse-all toggle: front page shows trending only until opened ---- */
+let browseOpen=false;
+document.getElementById("browseToggle").addEventListener("click",()=>{
+ browseOpen=!browseOpen;
+ const panel=document.getElementById("browsePanel");
+ const label=document.getElementById("browseLabel");
+ if(browseOpen){
+  panel.classList.add("open");label.textContent="▲ Hide Full Library";
+  setTimeout(()=>{renderGames();observeReveals();panel.scrollIntoView({behavior:"smooth",block:"start"});},50);
+ }else{
+  panel.classList.remove("open");label.textContent="🎮 Browse All Games";
+ }
+});
+
+/* ---- Full-page game detail with a native page-transition animation ---- */
+function buildGamePage(g){
+ const page=document.getElementById("gamePage");
+ const galleryImgs=[...new Set(g.gallery&&g.gallery.length?g.gallery:g.img?[g.img]:[])].slice(0,5);
+ const galleryHtml=galleryImgs.length
+   ?`<div class="detail-gallery-title">📸 Game Images • Up to 5 Official Play Store Screenshots</div><div class="detail-gallery">${galleryImgs.map(src=>`<img src="${src}" alt="${g.name} screenshot" loading="lazy">`).join("")}</div>`
+   :`<div class="detail-gallery-title">📸 Game Images • Up to 5 Official Play Store Screenshots</div><p style="color:var(--muted)">No verified screenshots added yet for this game — the cover art above is a placeholder.</p>`;
+ const heroStyle=g.img?`style="background-image:url('${g.img}')"`:`style="background:linear-gradient(135deg,#222,#444)"`;
+ page.innerHTML=`
+  <div class="detail-topbar"><button class="back-btn" onclick="closeGamePage()">← Back to Games</button></div>
+  <div class="detail-hero ${g.img?'':g.cover}" ${g.img?heroStyle:''}>
+   <div class="detail-hero-text"><span class="badge">${g.cat} · ${g.rating}</span><h2>${g.img?'':g.emoji+' '}${g.name}</h2></div>
+  </div>
+  <div class="detail-body">
+   <p>${g.desc}</p>
+   <div class="info-grid">
+     <div><b>${g.dev}</b><span>Developer</span></div>
+     <div><b>${g.platform}</b><span>Platform</span></div>
+     <div><b>${g.players}</b><span>Players</span></div>
+     <div><b>${g.size}</b><span>App Size</span></div>
+     <div><b>${g.released}</b><span>Released</span></div>
+   </div>
+   ${galleryHtml}
+   <div class="detail-actions">
+     <a class="btn" target="_blank" href="${playLink(g.q)}">📥 Official Google Play</a>
+     <button class="btn detail-wishlist" id="detailWishlistBtn" onclick="toggleDetailWishlist('${g.name}')">♡ Add to Wishlist</button>
+   </div>
+  </div>`;
+}
+function openGamePage(encodedName){
+ const name=decodeURIComponent(encodedName);
+ const g=games.find(x=>x.name===name);
+ if(!g)return;
+ const run=()=>{
+  buildGamePage(g);
+  document.getElementById("gamePage").classList.add("open");
+  document.body.classList.add("page-open");
+  document.getElementById("gamePage").scrollTop=0;
+ };
+ if(document.startViewTransition){document.startViewTransition(run);}else{run();}
+}
+function closeGamePage(){
+ const run=()=>{
+  document.getElementById("gamePage").classList.remove("open");
+  document.body.classList.remove("page-open");
+ };
+ if(document.startViewTransition){document.startViewTransition(run);}else{run();}
+}
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeGamePage()});
+
+renderTrending(); observeReveals();
+</script>
+
+<script>
+/* ---- Simple 3-page routing inside one deployable HTML file ---- */
+function routeTo(path){
+  if(path === "#games-page"){
+    document.querySelectorAll("body > section, body > header").forEach(el => el.style.display="none");
+    document.getElementById("games").style.display="block";
+    document.getElementById("games").scrollIntoView({behavior:"smooth"});
+  } else if(path === "#home" || !path){
+    document.querySelectorAll("body > section, body > header").forEach(el => el.style.display="");
+    window.scrollTo({top:0,behavior:"smooth"});
+  }
+}
+window.addEventListener("hashchange",()=>routeTo(location.hash));
+</script>
+
+<script>
+/* ---- Scroll-controlled 10-second visual sequence ---- */
+(function(){
+  const section=document.getElementById("scrollVideo");
+  if(!section)return;
+  const frames=[...section.querySelectorAll(".scroll-video-frame")];
+  const bar=document.getElementById("scrollVideoBar");
+  const time=document.getElementById("scrollVideoTime");
+  let last=-1, raf=0;
+
+  function updateScrollVideo(){
+    const rect=section.getBoundingClientRect();
+    const max=Math.max(1,section.offsetHeight-window.innerHeight);
+    const progress=Math.max(0,Math.min(1,-rect.top/max));
+    const frameIndex=Math.min(frames.length-1,Math.floor(progress*frames.length));
+    if(frameIndex!==last){
+      frames.forEach((img,i)=>img.classList.toggle("active",i===frameIndex));
+      last=frameIndex;
+    }
+    if(bar)bar.style.width=(progress*100).toFixed(1)+"%";
+    if(time){
+      const seconds=Math.round(progress*10);
+      time.textContent="00:"+String(seconds).padStart(2,"0")+" / 00:10";
+    }
+    raf=0;
+  }
+
+  function requestUpdate(){
+    if(!raf)raf=requestAnimationFrame(updateScrollVideo);
+  }
+  window.addEventListener("scroll",requestUpdate,{passive:true});
+  window.addEventListener("resize",requestUpdate);
+  requestUpdate();
+})();
+</script>
+
+
+<script>
+(function(){
+  const nav=document.querySelector("nav");
+  function navMotion(){ if(nav) nav.classList.toggle("scrolled",window.scrollY>24); }
+  window.addEventListener("scroll",navMotion,{passive:true});
+  navMotion();
+})();
+</script>
+</body>
+</html>
